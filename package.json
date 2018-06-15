@@ -1,0 +1,15 @@
+{
+  "name": "roster-client",
+  "version": "1.0.0",
+  "description": "A gRPC client for the roster service",
+  "main": "index.js",
+  "scripts": {
+    "proto": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:. --grpc_out=. --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin` players.proto"
+  },
+  "author": "Rob Warner",
+  "license": "MIT",
+  "dependencies": {
+    "google-protobuf": "^3.5.0",
+    "grpc": "^1.13.0-pre1"
+  }
+}
