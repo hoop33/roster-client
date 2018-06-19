@@ -3,6 +3,10 @@ var services = require('./players_grpc_pb')
 
 var grpc = require('grpc')
 
+proto.pb.Player.prototype.toString = function() {
+  return '[' + this.getId() + '] ' + this.getName() + ' (' + this.getPosition() + ') -- #' + this.getNumber() + ', ' + this.getHeight() + ', ' + this.getWeight() + 'lb, ' + this.getAge() + 'yo, ' + this.getExperience() + 'exp -- ' + this.getCollege()
+}
+
 function main() {
   var client = new services.PlayersClient('localhost:9091', grpc.credentials.createInsecure())
   listPlayers(client, 'QB')
@@ -19,7 +23,7 @@ function listPlayers(client, position) {
       console.log(position + ' : ' + response.getErr())
     } else {
       response.getPlayersList().forEach(function(player) {
-        console.log(position + ' : ' + toString(player))
+        console.log(position + ' : ' + player.toString())
       })
     }
   })
@@ -32,13 +36,9 @@ function getPlayer(client, id) {
     if (response.getErr() !== "") {
       console.log(id + ' : ' + response.getErr())
     } else {
-      console.log(id + ' : ' + toString(response.getPlayer()))
+      console.log(id + ' : ' + response.getPlayer().toString())
     }
   })
-}
-
-function toString(player) {
-  return '[' + player.getId() + '] ' + player.getName() + ' (' + player.getPosition() + ') -- #' + player.getNumber() + ', ' + player.getHeight() + ', ' + player.getWeight() + 'lb, ' + player.getAge() + 'yo, ' + player.getExperience() + 'exp -- ' + player.getCollege()
 }
 
 main()
